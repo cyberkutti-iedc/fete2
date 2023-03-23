@@ -1,0 +1,49 @@
+{
+    "name": "fete",
+    "version": "1.0.1",
+    "description": "A free WebRTC browser-based video call",
+    "main": "server.js",
+    "homepage": "http://cyberkutti-iedc.github.io/fete",
+    "scripts": {
+        "start": "node app/src/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "npx prettier --write .",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/miroslavpejic85/mirotalk"
+    },
+    "keywords": [
+        "webrtc",
+        "socket.io",
+        "p2p",
+        "nodejs",
+        "video"
+    ],
+    "author": "Miroslav Pejic",
+    "license": "AGPL-3.0",
+    "dependencies": {
+        "@sentry/integrations": "^7.21.1",
+        "@sentry/node": "^7.21.1",
+        "body-parser": "^1.20.1",
+        "colors": "^1.4.0",
+        "compression": "^1.7.4",
+        "cors": "^2.8.5",
+        "crypto-js": "^4.1.1",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "ngrok": "^4.3.3",
+        "qs": "^6.11.0",
+        "socket.io": "^4.5.4",
+        "swagger-ui-express": "^4.6.0",
+        "uuid": "9.0.0",
+        "yamljs": "^0.3.0"
+    },
+    "devDependencies": {
+        "gh-pages": "^5.0.0",
+        "node-fetch": "^2.6.6",
+        "prettier": "2.8.0"
+    }
+}
