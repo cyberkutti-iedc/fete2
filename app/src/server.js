@@ -26,17 +26,8 @@ dependencies: {
 }
 */
 
-/**
- * MiroTalk P2P - Server component
- *
- * @link    GitHub: https://github.com/miroslavpejic85/mirotalk
- * @link    Live demo: https://p2p.mirotalk.com or https://mirotalk.up.railway.app or https://mirotalk.herokuapp.com
- * @license For open source use: AGPLv3
- * @license For commercial or closed source, contact us at info.mirotalk@gmail.com
- * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.0.1
- *
- */
+
+ 
 
 'use strict'; // https://www.w3schools.com/js/js_strict.asp
 
@@ -58,6 +49,7 @@ const isHttps = false; // must be the same on client.js
 const port = process.env.PORT || 3000; // must be the same to client.js signalingServerPort
 
 let io, server, host;
+
 
 if (isHttps) {
     const fs = require('fs');
@@ -91,7 +83,7 @@ const swaggerDocument = yamlJS.load(path.join(__dirname + '/../api/swagger.yaml'
 const { v4: uuidV4 } = require('uuid');
 const apiBasePath = '/api/v1'; // api endpoint path
 const api_docs = host + apiBasePath + '/docs'; // api docs
-const api_key_secret = process.env.API_KEY_SECRET || 'mirotalk_default_secret';
+const api_key_secret = process.env.API_KEY_SECRET || 'fete_default_secret';
 
 // Ngrok config
 const ngrok = require('ngrok');
@@ -219,12 +211,7 @@ app.get(['/test'], (req, res) => {
     if (Object.keys(req.query).length > 0) {
         log.debug('Request Query', req.query);
     }
-    /*
-        http://localhost:3000/test?iceServers=[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:openrelay.metered.ca:443","username":"openrelayproject","credential":"openrelayproject"}]
-        https://p2p.mirotalk.com//test?iceServers=[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:openrelay.metered.ca:443","username":"openrelayproject","credential":"openrelayproject"}]
-        https://mirotalk.up.railway.app/test?iceServers=[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:openrelay.metered.ca:443","username":"openrelayproject","credential":"openrelayproject"}]
-        https://mirotalk.herokuapp.com/test?iceServers=[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:openrelay.metered.ca:443","username":"openrelayproject","credential":"openrelayproject"}]
-    */
+    
     res.sendFile(views.stunTurn);
 });
 
@@ -232,12 +219,7 @@ app.get(['/test'], (req, res) => {
 app.get('/join/', (req, res) => {
     if (Object.keys(req.query).length > 0) {
         log.debug('Request Query', req.query);
-        /* 
-            http://localhost:3000/join?room=test&name=mirotalk&audio=1&video=1&screen=1&notify=1
-            https://p2p.mirotalk.com/join?room=test&name=mirotalk&audio=1&video=1&screen=1&notify=1
-            https://mirotalk.up.railway.app/join?room=test&name=mirotalk&audio=1&video=1&screen=1&notify=1
-            https://mirotalk.herokuapp.com/join?room=test&name=mirotalk&audio=1&video=1&screen=1&notify=1
-        */
+       
         const { room, name, audio, video, screen, notify } = req.query;
         // all the params are mandatory for the direct room join
         if (room && name && audio && video && screen && notify) {
@@ -252,10 +234,7 @@ app.get('/join/*', (req, res) => {
     res.sendFile(views.client);
 });
 
-/**
-    MiroTalk API v1
-    For api docs we use: https://swagger.io/
-*/
+
 
 // request meeting room endpoint
 app.post([apiBasePath + '/meeting'], (req, res) => {
@@ -275,17 +254,13 @@ app.post([apiBasePath + '/meeting'], (req, res) => {
     res.end(JSON.stringify({ meeting: meetingURL }));
 
     // log.debug the output if all done
-    log.debug('MiroTalk get meeting - Authorized', {
+    log.debug('Fete get meeting - Authorized', {
         header: req.headers,
         body: req.body,
         meeting: meetingURL,
     });
 });
 
-/*
-    MiroTalk Slack app v1
-    https://api.slack.com/authentication/verifying-requests-from-slack
-*/
 
 //Slack request meeting room endpoint
 app.post('/slack', (req, res) => {
@@ -333,17 +308,7 @@ app.get('*', function (req, res) {
     res.sendFile(views.notFound);
 });
 
-/**
- * You should probably use a different stun-turn server
- * doing commercial stuff, also see:
- *
- * https://github.com/coturn/coturn
- * https://gist.github.com/zziuni/3741933
- * https://www.twilio.com/docs/stun-turn
- *
- * Check the functionality of STUN/TURN servers:
- * https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
- */
+
 const iceServers = [];
 
 // Stun is always needed

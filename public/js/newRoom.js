@@ -157,3 +157,46 @@ function typeWriter() {
         setTimeout(typeWriter, speed);
     }
 }
+const express = require('express');
+const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(server, {
+  debug: true
+});
+
+router.get('/', (req, res) => {
+  res.redirect(`/${uuidv4()}`);
+});
+
+router.get('/:room', (req, res) => {
+  res.render('room', { roomId: req.params.room });
+});
+
+io.on('connection', socket => {
+  socket.on('join-room', (roomId, userId, userName) => {
+    socket.join(roomId);
+    socket.to(roomId).broadcast.emit('user-connected', userId, userName);
+
+    socket.on('new-participant', (participantName) => {
+      const participantId = uuidv4();
+      io.to(roomId).emit('waiting-room', participantId, participantName);
+    });
+
+    socket.on('approve-participant', (participantId) => {
+      io.to(roomId).emit('participant-approved', participantId);
+    });
+
+    socket.on('reject-participant', (participantId) => {
+      io.to(roomId).emit('participant-rejected', participantId);
+    });
+
+    socket.on('disconnect', () => {
+      socket.to(roomId).broadcast.emit('user-disconnected', userId);
+    });
+  });
+});
+
+app.use('/peerjs', peerServer);
+
+module.exports = router;

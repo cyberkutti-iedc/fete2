@@ -121,7 +121,7 @@ body {
     height: 100%;
     margin: auto;
     overflow: hidden;
-    background: url('../images/bg.svg');
+    background: url('../images/bg.jpg');
 }
 
 /*--------------------------------------------------------------
@@ -1050,7 +1050,7 @@ progress {
     background: rgba(#19bb5c, 0.65);
     transition-property: height background-color;
     transition-duration: 0.25s;
-    /*box-shadow: var(--box-shadow);*/
+    box-shadow: var(--box-shadow);
 }
 
 /*--------------------------------------------------------------

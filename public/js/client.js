@@ -1,3 +1,63 @@
+let isWaiting = false;
+function joinRoom() {
+    // Emit join-room event with room ID and user's peer ID.
+    socket.emit("join-room", ROOM_ID, peer.id);
+  
+    // Emit join-waiting-room event.
+    socket.emit("join-waiting-room", ROOM_ID, peer.id);
+  
+    // Set isWaiting to true.
+    isWaiting = true;
+  }
+  function addNewParticipant(userId, stream) {
+    // Check if current user is waiting in the waiting room.
+    if (isWaiting) {
+      // Add new participant to the waiting room UI.
+      const participantDiv = document.createElement("div");
+      participantDiv.setAttribute("id", `participant-${userId}`);
+      participantDiv.classList.add("participant");
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      video.addEventListener("loadedmetadata", () => {
+        video.play();
+      });
+      participantDiv.appendChild(video);
+      const approveBtn = document.createElement("button");
+      approveBtn.innerText = "Approve";
+      approveBtn.addEventListener("click", () => {
+        // Emit accept-participant event to server.
+        socket.emit("accept-participant", ROOM_ID, userId);
+        participantDiv.remove();
+        isWaiting = false;
+      });
+      const rejectBtn = document.createElement("button");
+      rejectBtn.innerText = "Reject";
+      rejectBtn.addEventListener("click", () => {
+        // Emit reject-participant event to server.
+        socket.emit("reject-participant", ROOM_ID, userId);
+        participantDiv.remove();
+        isWaiting = false;
+      });
+      participantDiv.appendChild(approveBtn);
+      participantDiv.appendChild(rejectBtn);
+      document.getElementById("waiting-room").appendChild(participantDiv);
+    } else {
+      // Add new participant to the video grid.
+      const participantDiv = document.createElement("div");
+      participantDiv.setAttribute("id", `participant-${userId}`);
+      participantDiv.classList.add("participant");
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      video.addEventListener("loadedmetadata", () => {
+        video.play();
+      });
+      participantDiv.appendChild(video);
+      document.getElementById("video-grid").appendChild(participantDiv);
+    }
+  }
+    
+
+
 /*
  ██████ ██      ██ ███████ ███    ██ ████████ 
 ██      ██      ██ ██      ████   ██    ██    
@@ -6,18 +66,6 @@
  ██████ ███████ ██ ███████ ██   ████    ██   
 */
 
-/**
- * MiroTalk P2P - Client component
- *
- * @link    GitHub: https://github.com/miroslavpejic85/mirotalk
- * @link    Live demo: https://p2p.mirotalk.com or https://mirotalk.up.railway.app or https://mirotalk.herokuapp.com
- * @license For open source use: AGPLv3
- * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or buy directly via CodeCanyon
- * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
- * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.0.1
- *
- */
 
 'use strict'; // https://www.w3schools.com/js/js_strict.asp
 
@@ -26,11 +74,11 @@ const signalingServer = getSignalingServer();
 const roomId = getRoomId();
 const peerLoockupUrl = 'https://extreme-ip-lookup.com/json/?key=demo2'; // get your API Key at https://extreme-ip-lookup.com
 const avatarApiUrl = 'https://eu.ui-avatars.com/api';
-const surveyURL = 'https://www.questionpro.com/t/AUs7VZq00L';
-const welcomeImg = '../images/image-placeholder.png';
-const shareUrlImg = '../images/image-placeholder.png';
+const surveyURL = 'https://questionpro.com/t/AXrihZxtgt';
+const welcomeImg = '../images/fete3.png';
+const shareUrlImg = '../images/fete3.png';
 const leaveRoomImg = '../images/leave-room.png';
-const confirmImg = '../images/image-placeholder.png';
+const confirmImg = '../images/fete3.png';
 const fileSharingImg = '../images/share.png';
 const roomLockedImg = '../images/locked.png';
 const camOffImg = '../images/cam-off.png';
@@ -41,10 +89,10 @@ const messageImg = '../images/message.png';
 const kickedOutImg = '../images/leave-room.png';
 const audioGif = '../images/audio.gif';
 const videoAudioShare = '../images/va-share.png';
-const aboutImg = '../images/mirotalk-logo.png';
+const aboutImg = '../images/fete1.png';
 const imgFeedback = '../images/feedback.png';
 const forbiddenImg = '../images/forbidden.png';
-const avatarImg = '../images/mirotalk-logo.png';
+const avatarImg = '../images/fete1.png';
 const camMicOff = '../images/cam-mic-off.png';
 
 // nice free icon: https://www.iconfinder.com
@@ -6974,19 +7022,10 @@ function showAbout() {
     Swal.fire({
         background: swalBackground,
         position: 'center',
-        title: '<strong>WebRTC P2P</strong>',
-        imageAlt: 'mirotalk-about',
+        title: '<strong>AN IEDC SNMIMT PRODUCT</strong>',
+        imageAlt: 'Fete-about',
         imageUrl: aboutImg,
-        html: `
-        <br/>
-        <div id="about">
-            <b><a href="https://github.com/miroslavpejic85/mirotalk" class="umami--click--github" target="_blank">Open Source</a></b> project
-            <br/><br/>
-            <button class="pulsate umami--click--sponsor" onclick="window.open('https://github.com/sponsors/miroslavpejic85?o=esb')"><i class="${className.heart}" ></i>&nbsp;Support</button>
-            <br /><br />
-            Author:<a href="https://www.linkedin.com/in/miroslav-pejic-976a07101/" class="umami--click--linkedin" target="_blank"> Miroslav Pejic</a>
-        </div>
-        `,
+       
         showClass: {
             popup: 'animate__animated animate__fadeInDown',
         },

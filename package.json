@@ -8,12 +8,13 @@
         "start": "node app/src/server.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "npx prettier --write .",
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build"
+        
+     "predeploy": "npm run build",
+       "deploy": "gh-pages -d build"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/miroslavpejic85/mirotalk"
+        "url": ""
     },
     "keywords": [
         "webrtc",
@@ -22,7 +23,7 @@
         "nodejs",
         "video"
     ],
-    "author": "Miroslav Pejic",
+    "author": "Fete",
     "license": "AGPL-3.0",
     "dependencies": {
         "@sentry/integrations": "^7.21.1",

@@ -1,7 +1,7 @@
 import requests
 import json
 
-API_KEY = "mirotalk_default_secret"
+API_KEY = "fete_default_secret"
 # MIROTALK_URL = "http://localhost:3000/api/v1/meeting"
 # MIROTALK_URL = "https://p2p.mirotalk.com/api/v1/meeting";
 # MIROTALK_URL = "https://mirotalk.up.railway.app/api/v1/meeting"
