@@ -1,13 +1,3 @@
-import ReactGA from 'react-ga';
-
-ReactGA.initialize('UA-239736979-1');
-
-import ReactGA from 'react-ga';
-
-ReactGA.pageview(window.location.pathname + window.location.search);
-
-
-
 
 
 
